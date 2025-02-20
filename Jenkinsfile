@@ -42,7 +42,7 @@ pipeline {
             steps {
                 withCredentials([file(credentialsId: 'AKS_KUBECONFIG', variable: 'KUBECONFIG')]) {
                     sh '''
-                        kubectl apply -f service.yaml
+                        kubectl apply -f nginx-service.yaml
                     '''
                 }
                 echo "✅ NGINX Service deployed"
