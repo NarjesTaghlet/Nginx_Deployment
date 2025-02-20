@@ -4,7 +4,7 @@ pipeline {
     environment {
         RESOURCE_GROUP = 'test'
         AKS_CLUSTER_NAME = 'myakscluster'
-        KUBECONFIG = credentials('aks-kubeconfig')
+        //KUBECONFIG = credentials('aks-kubeconfig')
         ARM_SUBSCRIPTION_ID=credentials('azure-subscription-id')
     }
 
@@ -22,18 +22,28 @@ pipeline {
                     sh '''
                         az login --use-device-code
                         az account set --subscription $ARM_SUBSCRIPTION_ID
-                        az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER_NAME --file $KUBECONFIG
+                       #az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER_NAME --file $KUBECONFIG
                     '''
                 }
                 echo "Azure Login completed"
             }
         }
-        stage('Deploy NGINX Pod') {
+        /*stage('Deploy NGINX Pod') {
             steps {
                 sh 'kubectl apply -f nginx-deployment.yaml'
             }
         }
-
+*/
+        stage('Deploy NGINX Pod') {
+            steps {
+                withCredentials([file(credentialsId: 'aks-kubeconfig', variable: 'KUBECONFIG')]) {
+                    sh '''
+                        kubectl apply -f nginx-deployment.yaml
+                    '''
+                }
+                echo "✅ NGINX Pod deployed"
+            }
+        }
         stage('Verify Deployment') {
             steps {
                 sh 'kubectl get pods -o wide'
