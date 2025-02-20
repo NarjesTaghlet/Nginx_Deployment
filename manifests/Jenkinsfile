@@ -11,10 +11,11 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
+                cleanWs()  // Ensure a fresh workspace
                 git branch: 'main', url: 'https://github.com/NarjesTaghlet/Nginx_Deployment.git'
+                echo "Checkout completed"
             }
         }
-
 
         stage('Azure Login') {
             steps {
@@ -25,6 +26,7 @@ pipeline {
                         az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER_NAME --file $KUBECONFIG
                     '''
                 }
+                echo "Azure Login completed"
             }
         }
 
