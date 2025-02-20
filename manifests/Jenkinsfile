@@ -4,7 +4,7 @@ pipeline {
     environment {
         RESOURCE_GROUP = 'test'
         AKS_CLUSTER_NAME = 'myakscluster'
-        KUBECONFIG = '~/.kube/config'
+        KUBECONFIG = credentials('aks-kubeconfig')
         ARM_SUBSCRIPTION_ID=credentials('azure-subscription-id')
     }
 
