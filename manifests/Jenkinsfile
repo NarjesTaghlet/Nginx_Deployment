@@ -16,7 +16,6 @@ pipeline {
                 echo "Checkout completed"
             }
         }
-
         stage('Azure Login') {
             steps {
                 script {
@@ -29,7 +28,6 @@ pipeline {
                 echo "Azure Login completed"
             }
         }
-
         stage('Deploy NGINX Pod') {
             steps {
                 sh 'kubectl apply -f nginx-deployment.yaml'
