@@ -11,8 +11,8 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                cleanWs()  // Ensure a fresh workspace
-                git branch: 'main', url: 'https://github.com/NarjesTaghlet/Nginx_Deployment.git'
+                
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/NarjesTaghlet/Nginx_Deployment.git'
                 echo "Checkout completed"
             }
         }
